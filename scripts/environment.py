@@ -46,12 +46,13 @@ def init_game():
     """
     return {'dealer': random.randint(1,10), 'player': random.randint(1,10)}
 
-state = init_game()
-terminal = False
-print(state)
-while not terminal:
-    print("Enter action:")
-    action = input()
-    state, reward, terminal = step(state, action)
+if __name__ == '__main__':
+    state = init_game()
+    terminal = False
     print(state)
-print("End of the game, reward is", reward)
+    while not terminal:
+        print("Enter action:")
+        action = input()
+        state, reward, terminal = step(state, action)
+        print(state)
+    print("End of the game, reward is", reward)
