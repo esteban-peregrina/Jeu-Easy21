@@ -17,6 +17,11 @@ class Easy21Agent:
         self.actions = ['hit', 'stick']
 
     def get_action(self, state):
+        """
+        Compute agent action using epsilon-greedy strategy
+        
+        :param state: state giving player sum and dealer first card
+        """
         dealer_card_index = state['dealer'] - 1 # Initial dealer card, drawn at game's start
         player_sum_index = state['player'] - 1
 
@@ -26,10 +31,15 @@ class Easy21Agent:
         if (random.random() < epsilon): 
             return random.choice(self.actions) # Explore
         else:
-            id = np.argmax(self.Q[dealer_card_index, player_sum_index, :]) # Look for the best action to do in this state (from experience)
-            return self.actions[id] # Exploit best action 
+            index = np.argmax(self.Q[dealer_card_index, player_sum_index, :]) # Look for the best action to do in this state (from experience)
+            return self.actions[index] # Exploit best action 
 
-    def learn(self, episodes = 100000):
+    def learn(self, episodes = 500000):
+        """
+        Implement Monte Carlo epsilon-greedy control
+        
+        :param episodes: Number of game the agent will play to train itself
+        """
         for _ in range(episodes):
             history = [] # Each episode is a full game made of a sequence of states and actions
             state = init_game()
@@ -52,7 +62,13 @@ class Easy21Agent:
                 self.Q[dealer_card_index, player_sum_index, action_index] += alpha * error # Correct the action's score for this state, with less and less weight as experience increase
 
 def plot_value_function(agent, title="Optimal Value Function"):
-    V = np.max(agent.Q, axis=2)
+    """
+    Plot value function as a 3D surface, where z-axis indicates how good (positive) or bad (negative) a given state (x,y) is for the agent.
+    
+    :param agent: Easy21Agent to take data from
+    :param title: Title for the plot window
+    """
+    V = np.max(agent.Q, axis=2) # Look for the best actions to do for each state
 
     # Creating grid
     dealer_card_indexs = np.arange(1, 11) # From 1 to 10
@@ -75,6 +91,28 @@ def plot_value_function(agent, title="Optimal Value Function"):
 
     plt.show()
 
-agent = Easy21Agent()
-agent.learn(episodes=1000000) 
-plot_value_function(agent)
+def plot_optimal_policy(agent, title="Optimal Policy"):
+    """
+    Plot optimal policy as a 2D heatmap, where color indicate best action to do for a given stat (x,y) 
+    
+    :param agent: Easy21Agent to take data from
+    :param title: Title for the plot window
+    """
+    # Get best action index
+    policy = np.argmax(agent.Q, axis=2)
+
+    # Optimal policy heatmap
+    plt.imshow(policy.T, origin='lower', extent=[1, 10, 1, 21], aspect='auto', cmap='coolwarm')
+    plt.colorbar(label='0: Hit (Blue) | 1: Stick (Red)')
+    plt.xlabel('Dealer first card')
+    plt.ylabel('Player sum')
+    plt.title('Optimal policy')
+    plt.show()
+
+if __name__ == '__main__':
+    agent = Easy21Agent()
+    agent.learn() 
+    plot_value_function(agent)
+    plot_optimal_policy(agent)
+
+    
