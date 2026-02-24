@@ -1,13 +1,19 @@
+"""
+Created by Esteban Peregrina on 2026-02-24.
+
+This script implements functions to plot the value function and optimal policy of the Easy21 agent, using matplotlib library.
+"""
+
 import numpy as np
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
-def plot_value_function(agent, title="Optimal Value Function"):
+def plot_value_function(agent, file_name, title="Optimal Value Function"):
     """
     Plot value function as a 3D surface, where z-axis indicates how good (positive) or bad (negative) a given state (x,y) is for the agent.
     
     :param agent: Easy21Agent to take data from
+    :param file_name: Name of the file to save the plot
     :param title: Title for the plot window
     """
     V = np.max(agent.Q, axis=2) # Look for the best actions to do for each state
@@ -31,16 +37,17 @@ def plot_value_function(agent, title="Optimal Value Function"):
     ax.set_title(title)
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
-    plt.savefig('./../records/value_function.png')
+    plt.savefig('./../records/' + file_name)
     plt.show()
     print("Value function saved in records/")
 
 
-def plot_optimal_policy(agent, title="Optimal Policy"):
+def plot_optimal_policy(agent, file_name, title="Optimal Policy"):
     """
     Plot optimal policy as a 2D heatmap, where color indicate best action to do for a given stat (x,y) 
     
     :param agent: Easy21Agent to take data from
+    :param file_name: Name of the file to save the plot
     :param title: Title for the plot window
     """
     # Get best action index
@@ -53,6 +60,6 @@ def plot_optimal_policy(agent, title="Optimal Policy"):
     plt.xlabel('Dealer first card')
     plt.ylabel('Player sum')
     plt.title('Optimal policy')
-    plt.savefig('./../records/optimal_policy.png')
+    plt.savefig('./../records/' + file_name)
     plt.close()
     print("Optimal policy saved in records/")

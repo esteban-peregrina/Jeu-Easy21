@@ -1,3 +1,10 @@
+"""
+Created by Esteban Peregrina on 2026-02-17.
+
+This script implements the Easy21 environment, which is a simplified version of Blackjack. 
+It includes functions to initialize the game, take a step in the game given an action, and draw cards.
+"""
+
 import random
 
 def step(state, action):
