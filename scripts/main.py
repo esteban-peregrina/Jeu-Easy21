@@ -97,6 +97,12 @@ if __name__ == '__main__':
     plt.close()
     print("Learning Curves saved in records/")
 
+    # Discussion
+    # On-policy uses the same policy (π) for interaction and learning. 
+    # Off-policy uses a behavior policy (μ) for interaction 
+    # to learn about a different target policy (π), requiring a correction step 
+    # (here for the Q-Learning its in some way the use of max()).
+
     ########## LINEAR AGENTS ##########
     SARSA_linear_agent = LinearAgent()
 
@@ -141,6 +147,3 @@ if __name__ == '__main__':
     plt.savefig('./../records/learning_curves_linear.png')
     plt.close()
     print("Learning Curves saved in records/")
-
-
-    

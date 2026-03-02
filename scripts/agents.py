@@ -186,7 +186,11 @@ class TabularAgent(Easy21Agent):
                 # will still be epsilon-greedy and might randomly explore.
                 target = reward + (0 if terminal else np.max(self.Q[self._get_indices(next_state)])) # Target policy is greedy
                 
-                # Off-policy : separate behavior policy (how it acts) and target policy (how it evaluate actions)
+                # Off-policy : separate behavior policy (how it acts, so interact) and target policy (how it evaluate actions, so how it learns)
+                # Q-learning is off-policy because to update the Q-value of (S_t, A_t), 
+                # it uses the maximum estimated FUTURE VALUE for the next state S_t+1 
+                # (i.e. max Q(S_t+1, a)), regardless of which SUBSEQUENT action A_t+1 
+                # the current behavior policy will actually take in that next state.
 
                 alpha = 1.0 / self.N[d_idx, p_idx, a_idx] # Learning rate, weight less and less as experience increase
                 self.Q[d_idx, p_idx, a_idx] += alpha * (target - self.Q[d_idx, p_idx, a_idx]) # Correct the action's score for this state
