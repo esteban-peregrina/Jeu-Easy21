@@ -81,7 +81,9 @@ if __name__ == '__main__':
     lc_0 = SARSA_agent.MSE
     SARSA_agent.sarsa_learn(1, 10000, Q_star=Qstar)
     lc_1 = SARSA_agent.MSE
-    Qlearning_agent.q_learning_learn(Q_star=Qstar)
+    Qlearning_agent.q_learning_learn(10000, Q_star=Qstar)
+    plot_value_function(Qlearning_agent, file_name="value_function_Q-learning.png", title="Optimal Value Function (Q-learning)")
+    plot_optimal_policy(Qlearning_agent, file_name="optimal_policy_Q-learning.png", title="Optimal Policy (Q-learning)")
     lc_2 = Qlearning_agent.MSE
 
     plt.figure()
